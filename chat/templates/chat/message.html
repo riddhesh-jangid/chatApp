@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<head>
+  <!--COMMON ERRORS HANDLING-->
+     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <!--common errors handling-->
+
+  <style>
+  body {
+    background-image: url({% static "chat/candybg.jpg" %});
+  }
+  .username{
+    font-size: 35px;
+    color: rgb(0,191,255);
+    margin-left: 5%;
+    font-style: italic;
+  }
+  .messagebox{
+    height: 10vh;
+  }
+  .recieve{
+    color:Blue;
+    margin-left: 5px;
+    font-size: 20px;
+  }
+  .send{
+    color:Green;
+    text-align: right;
+    margin-right: 5px;
+    font-size: 20px;
+  }
+ .mainbody{
+   height : 100vh;
+   display: block;
+   flex-wrap: nowrap;
+   margin: 0 10% 0 10%;
+ }
+ .upperpart{
+   height: 15%;
+   width : 100%;
+   display: flex;
+   flex-wrap: wrap;
+   background-color: rgba(255,215,0,0.7);
+ }
+ .middlepart{
+   height : 70%;
+   width: 100%;
+   overflow-y :  scroll;
+   background-color: rgba(0,191,255,0.7);
+ }
+ .lastpart{
+   height: 15%;
+   width: 100%;
+   background-color: rgba(255,215,0,0.7);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+ }
+ .leftside{
+   width : 62%;
+   height : 100%
+ }
+ .rightside{
+   width : 38%;
+   height : 100%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+ }
+ a{
+   text-decoration : none;
+   font-size: 25px;
+   //color: rgb(0,191,255);
+   color : white;
+ }
+  </style>
+
+  <script>
+   window.onload=function () {
+       var objDiv = document.getElementsByClassName("middlepart")[0];
+       objDiv.scrollTop = objDiv.scrollHeight;
+  }
+</script>
+
+
+</head>
+<body>
+
+<div class="mainbody">
+  <div class="upperpart">
+    <div class="leftside">
+      <h2 class="username">{{username}}</h2>
+    </div>
+    <div class="rightside">
+      <a href="../../../">Home</a>
+    </div>
+  </div>
+  <div class="middlepart">
+    <!--all user start-->
+    {% for x in allmessage%}
+    {% if x.token.token == user_id1 %}
+      {% if x.rtoken == user_id2 %}
+      <div class="messagebox">
+        <h4 class="send">{{x.text}}</h4>
+      </div>
+      {% endif %}
+    {% else %}
+     {% if user_id1 == x.rtoken %}
+       {% if x.token.token == user_id2 %}
+       <div class="messagebox">
+         <h4 class="recieve">{{x.text}}</h4>
+       </div>
+       {% endif %}
+     {% endif %}
+    {% endif %}
+    {% endfor %}
+    <!--all user end-->
+  </div>
+  <div class="lastpart">
+    <form action="" method="post">
+    {% csrf_token %}
+    <input type="text" id="messageid" name="sentmessage" placeholder="type message"/>
+    <input type="submit" value="send"/>
+    </form>
+  </div>
+</div>
+</body>
+</html>

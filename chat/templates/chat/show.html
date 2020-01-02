@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<head>
+  <!--COMMON ERRORS HANDLING-->
+     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <!--common errors handling-->
+
+  <style>
+  body {
+    background-image: url({% static "chat/candybg.jpg" %});
+  }
+  .mainbody{
+    height : 100vh;
+    display : block;
+    flex-wrap: nowrap;
+    background-color: rgba(255,215,0,0.7);
+    margin: 0 10% 0 10%;
+  }
+  .upperpart{
+    height : 25%;
+    weight : 100%;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .downwardpart{
+    height : 75%;
+    weight : 100%;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .leftside{
+    height : 100%;
+    width  : 62%;
+  }
+  .rightside{
+    height : 100%;
+    width  : 38%;
+  }
+  .vhcenter{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .vcenter{
+    display: flex;
+    align-items: center;
+  }
+  .namefont{
+    font-size: 35px;
+    color: rgb(0,191,255);
+    margin-left: 5%;
+    font-style: italic;
+  }
+  button{
+    background-color: rgba(0,191,255,0.7);
+  }
+  a{
+    text-decoration : none;
+    font-size: 25px;
+    //color: rgb(0,191,255);
+    color : white;
+  }
+  ul{
+    list-style-type : georgian;
+  }
+  .bgblue{
+    background-color: rgba(0,191,255,0.7);
+  }
+  </style>
+</head>
+<body>
+  <div class="mainbody">
+    <div class="upperpart">
+      <div class="leftside vcenter">
+        <h2 class="namefont">{{username}}</h2>
+      </div>
+      <div class="rightside vhcenter">
+        <button onclick="logout()">LOGOUT</button>
+        <!--<a href="../logout">logout</a>-->
+      </div>
+    </div>
+    <div class="downwardpart">
+      <div class="leftside bgblue">
+        <!--messages start-->
+        <ul>
+        {% for x in allaccount %}
+        {% if x.username == username %}
+        {% else %}
+
+        {% for y in connections %}
+          {% if y.token.token == token and y.ctoken == x.token %}
+            <li><a href="{{token}}/{{x.token}}/messages/">{{ x.username }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+        <ul>
+        <!--messages end-->
+      </div>
+      <div class="rightside bgblue">
+        <!--all users start-->
+        <ul>
+        {% for x in allaccount %}
+        {% if x.username == username %}
+        {% else %}
+        <li><a href="{{token}}/{{x.token}}/messages/">{{ x.username }}</a></li>
+        {% endif %}
+        {% endfor %}
+        <ul>
+        <!--all users end-->
+      </div>
+    </div>
+  </div>
+
+<script>
+
+function logout(){
+  window.location.href="../logout"
+}
+
+</script>
+</body>
+</html>

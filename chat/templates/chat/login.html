@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+
+<head>
+ <script>
+   window.location.hash="no-back-button";
+   window.location.hash="Again-No-back-button";//again because google chrome don't insert first hash into history
+   window.onhashchange=function(){window.location.hash="no-back-button";}
+ </script>
+
+<style>
+ body{
+   background-image : url({% static "chat/candybg.jpg" %});
+   background-size: cover;
+   background-position: center;
+   margin: 0px;
+ }
+ h1{
+   color: rgba(255,140,0,1);
+   //color : white;
+   font-size: 45px;
+   background-color: rgba(255, 255, 255, 0.8);
+   border: 2px solid orange;
+ }
+ .form{
+   border : 3px solid #f1f1f1;
+   border-color: rgba(255,215,0,0.7);
+   margin: 10% 15%;
+   background-color: rgba(255,255,255,0.8)
+ }
+ input[type=text], input[type=password]{
+   width : 80%;
+   display : inline-block;
+   margin: 10px;
+   height : 30px;
+   background-color: rgba(255,215,0,0.3);
+ }
+ input[type=submit]{
+   width:40%;
+   height : 30px;
+   background-color: rgba(255,215,0,0.7);
+   margin: 5px;
+ }
+</style>
+</head>
+
+<body>
+
+ <center><h1>Candy Chat</h1><center>
+
+ <form action="{% url 'chat:process' %}" method="post" class="form">
+  {% csrf_token %}
+   <input type="text" name="username" placeholder="username" required="required" pattern="[A-Za-z0-9]{3,20}"/>
+   <input type="password" name="password" placeholder="password" required="required" pattern="[A-Za-z0-9]{5,20}"/>
+   <input type="submit" name="choice" value="login"/>
+  <hr/>
+   <input type="submit" name="choice" value="singup"/>
+ {% if error_message %}
+ <h3>{{error_message}}</h3>
+ {% endif %}
+ </form>
+
+</body>
+</html>
